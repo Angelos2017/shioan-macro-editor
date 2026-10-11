@@ -1,0 +1,254 @@
+[
+  {
+    "name": "作業",
+    "level": 1,
+    "cp": 0,
+    "category": "作業系",
+    "description": "工数を進める"
+  },
+  {
+    "name": "加工",
+    "level": 5,
+    "cp": 18,
+    "category": "加工系",
+    "description": "品質を上げる"
+  },
+  {
+    "name": "マスターズメンド",
+    "level": 7,
+    "cp": 88,
+    "category": "耐久回復系",
+    "description": "耐久を30回復"
+  },
+  {
+    "name": "ヘイスティタッチ",
+    "level": 9,
+    "cp": 0,
+    "category": "加工系",
+    "description": "成功率に注意"
+  },
+  {
+    "name": "突貫作業",
+    "level": 9,
+    "cp": 0,
+    "category": "作業系",
+    "description": "成功率に注意"
+  },
+  {
+    "name": "経過観察",
+    "level": 13,
+    "cp": 7,
+    "category": "補助系",
+    "description": "1ターン見守る"
+  },
+  {
+    "name": "秘訣",
+    "level": 13,
+    "cp": 0,
+    "category": "条件付き",
+    "description": "高品質以上で使用"
+  },
+  {
+    "name": "倹約",
+    "level": 15,
+    "cp": 56,
+    "category": "耐久管理系",
+    "description": "耐久消費を抑える"
+  },
+  {
+    "name": "ヴェネレーション",
+    "level": 15,
+    "cp": 18,
+    "category": "強化系",
+    "description": "作業効率上昇"
+  },
+  {
+    "name": "中級加工",
+    "level": 18,
+    "cp": 32,
+    "category": "加工系",
+    "description": "コンボでCP軽減"
+  },
+  {
+    "name": "グレートストライド",
+    "level": 21,
+    "cp": 32,
+    "category": "強化系",
+    "description": "次の加工を強化"
+  },
+  {
+    "name": "イノベーション",
+    "level": 26,
+    "cp": 18,
+    "category": "強化系",
+    "description": "加工効率上昇"
+  },
+  {
+    "name": "最終確認",
+    "level": 42,
+    "cp": 1,
+    "category": "補助系",
+    "description": "完成を防ぐ"
+  },
+  {
+    "name": "長期倹約",
+    "level": 47,
+    "cp": 98,
+    "category": "耐久管理系",
+    "description": "耐久消費を抑える"
+  },
+  {
+    "name": "ビエルゴの祝福",
+    "level": 50,
+    "cp": 24,
+    "category": "加工系",
+    "description": "インナークワイエットに依存"
+  },
+  {
+    "name": "集中加工",
+    "level": 53,
+    "cp": 18,
+    "category": "条件付き",
+    "description": "高品質以上で使用"
+  },
+  {
+    "name": "確信",
+    "level": 54,
+    "cp": 6,
+    "category": "作業系",
+    "description": "1ターン目のみ"
+  },
+  {
+    "name": "模範作業",
+    "level": 62,
+    "cp": 7,
+    "category": "作業系",
+    "description": "工数を進める"
+  },
+  {
+    "name": "マニピュレーション",
+    "level": 65,
+    "cp": 96,
+    "category": "耐久回復系",
+    "description": "クエスト解放が必要"
+  },
+  {
+    "name": "倹約加工",
+    "level": 66,
+    "cp": 25,
+    "category": "加工系",
+    "description": "耐久消費を抑える"
+  },
+  {
+    "name": "上級加工",
+    "level": 68,
+    "cp": 46,
+    "category": "加工系",
+    "description": "コンボでCP軽減"
+  },
+  {
+    "name": "真価",
+    "level": 69,
+    "cp": 6,
+    "category": "加工系",
+    "description": "1ターン目のみ"
+  },
+  {
+    "name": "下地加工",
+    "level": 71,
+    "cp": 40,
+    "category": "加工系",
+    "description": "耐久消費20"
+  },
+  {
+    "name": "下地作業",
+    "level": 72,
+    "cp": 18,
+    "category": "作業系",
+    "description": "耐久消費20"
+  },
+  {
+    "name": "精密作業",
+    "level": 76,
+    "cp": 32,
+    "category": "作業・加工複合",
+    "description": "工数と品質を上げる"
+  },
+  {
+    "name": "集中作業",
+    "level": 78,
+    "cp": 6,
+    "category": "条件付き",
+    "description": "高品質以上で使用"
+  },
+  {
+    "name": "匠の早業",
+    "level": 80,
+    "cp": 250,
+    "category": "加工系",
+    "description": "低レベルレシピ向け"
+  },
+  {
+    "name": "倹約作業",
+    "level": 88,
+    "cp": 18,
+    "category": "作業系",
+    "description": "耐久消費を抑える"
+  },
+  {
+    "name": "匠の神業",
+    "level": 90,
+    "cp": 32,
+    "category": "加工系",
+    "description": "インナークワイエット10で使用"
+  },
+  {
+    "name": "洗練加工",
+    "level": 92,
+    "cp": 24,
+    "category": "加工系",
+    "description": "コンボ効果"
+  },
+  {
+    "name": "デアリングタッチ",
+    "level": 96,
+    "cp": 0,
+    "category": "条件付き",
+    "description": "匠の好機中・マクロ動作要検証"
+  },
+  {
+    "name": "パーフェクトメンド",
+    "level": 98,
+    "cp": 112,
+    "category": "耐久回復系",
+    "description": "耐久を全回復"
+  },
+  {
+    "name": "匠の絶技",
+    "level": 100,
+    "cp": 0,
+    "category": "補助系",
+    "description": "耐久消費を抑える"
+  },
+  {
+    "name": "設計変更",
+    "level": 55,
+    "cp": 0,
+    "category": "マイスター専用",
+    "description": "製図用紙が必要"
+  },
+  {
+    "name": "一心不乱",
+    "level": 86,
+    "cp": 0,
+    "category": "マイスター専用",
+    "description": "製図用紙が必要"
+  },
+  {
+    "name": "クイックイノベーション",
+    "level": 96,
+    "cp": 0,
+    "category": "マイスター専用",
+    "description": "製図用紙が必要"
+  }
+]
