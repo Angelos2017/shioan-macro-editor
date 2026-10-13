@@ -1,0 +1,60 @@
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>しお✦あん クラフトマクロ テスト v0.7</title>
+<style>body{font-family:system-ui,sans-serif;max-width:860px;margin:auto;padding:18px;background:#f3faf5;color:#234030}
+h1{font-size:1.45rem}section{background:white;padding:16px;border-radius:14px;margin:12px 0}
+button,select,input{font:inherit;padding:8px;border-radius:8px;border:1px solid #bcd9c6}
+button{background:#31885c;color:white;cursor:pointer}button:disabled{opacity:.4}
+input{width:100%;box-sizing:border-box}textarea{width:100%;box-sizing:border-box;min-height:210px;font:14px monospace}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}.entry{border-bottom:1px solid #dbe9df;padding:8px 0}.dict-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-top:12px}.dict-card{border:1px solid #dbe9df;border-radius:12px;padding:12px;background:#fbfefb;display:flex;flex-direction:column;gap:7px}.dict-card strong{font-size:1rem}.dict-card .meta{font-size:.83rem;color:#587264}.dict-card button{align-self:flex-start}.row-tools{display:flex;gap:5px;flex-wrap:wrap}#rows{display:none}
+small,.muted{color:#587264}.warn{color:#9a492e}.chip{background:#e4f4e8;border-radius:10px;padding:3px 7px}
+
+#dictionary{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:8px;margin-top:12px}
+.dict-card{padding:10px 12px;gap:7px}.dict-card .summary{display:flex;justify-content:space-between;gap:8px;align-items:center}.dict-card .meta{font-size:.78rem}.dict-card .detail-toggle{background:#e4f4e8;color:#234030;font-size:.78rem;padding:5px 9px}
+.dict-card .details{border-top:1px solid #dbe9df;padding-top:8px;font-size:.85rem;line-height:1.5}
+.dict-card .details code{display:block;overflow-wrap:anywhere;margin:6px 0}.dict-card .controls{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.category-chips{display:flex;gap:6px;overflow-x:auto;padding:8px 0 10px;scrollbar-width:thin}.category-chips button{flex:0 0 auto;background:#e4f4e8;color:#234030;white-space:nowrap;font-size:.82rem;padding:7px 10px}.category-chips button.active{background:#31885c;color:white}
+#dictcount{font-size:.83rem;color:#587264}.preview-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+@media(max-width:600px){body{padding:9px}section{padding:11px;margin:8px 0}h1{font-size:1.18rem}h2{font-size:1.06rem}.row label{flex:1 1 130px}.preview-panel{position:sticky;top:0;z-index:20;background:white;padding:7px;border-radius:10px;box-shadow:0 4px 16px #16452b24;border:1px solid #dbe9df}.preview-panel textarea{min-height:86px;height:106px;font-size:12px}.preview-panel h2{margin:0 0 6px}.preview-panel .helper{display:none}.preview-panel .row{margin:5px 0}.preview-panel button{padding:7px}.dict-grid{grid-template-columns:1fr!important}.dict-card{padding:9px}.dict-card .summary strong{font-size:.95rem}}
+</style><h1>✦ しお✦あん クラフトマクロ テスト <small>v0.7 非公開配布用</small></h1>
+<p>クラフトアクション36種類を収録した単体テスト版。公開中のGitHub Pagesは変更しません。</p>
+<section><h2>マクロを組み立てる</h2>
+<div class="row"><label>分類 <select id="cat"></select></label><label>アクション <select id="act"></select></label><label>待機 <select id="wait"><option value="3">3秒</option><option value="2">2秒</option><option value="4">4秒</option><option value="1">1秒</option><option value="0">なし</option></select></label></div>
+<p id="info" class="muted"></p><button id="add">＋ 追加</button> <button id="undo">最後の行を削除</button> <button id="clear">すべて消去</button>
+<div class="preview-panel"><h3>作成中 <span id="count">0 / 15行</span></h3><p class="muted helper">追加したマクロはテキストボックス内だけに表示。スマホでは作成欄が画面上部に残るよ。</p><textarea id="output" readonly></textarea>
+<div class="row"><button id="copy">マクロをコピー</button><button id="transfer">📋 総合版の取り込みへ送る</button><span id="status"></span></div></div>
+<p class="warn">※15行制限。実際の成功可否はレシピ・ステータス・アクションの条件によります。待機時間やコマンドはゲーム内で確認してください。</p></section>
+<section><h2>クラフト辞書（36種類）</h2><input id="search" placeholder="🔍 名前・分類・説明で検索"><div id="chips" class="category-chips" aria-label="カテゴリ絞り込み"></div><div id="dictcount"></div><div id="dictionary" class="dict-grid"></div></section>
+<script id="craftdata" type="application/json">[{"name": "作業", "category": "作業系", "level": 1, "cp": 0, "description": "工数を進める"}, {"name": "加工", "category": "加工系", "level": 5, "cp": 18, "description": "品質を上げる"}, {"name": "マスターズメンド", "category": "耐久回復系", "level": 7, "cp": 88, "description": "耐久を30回復"}, {"name": "ヘイスティタッチ", "category": "加工系", "level": 9, "cp": 0, "description": "成功率に注意"}, {"name": "突貫作業", "category": "作業系", "level": 9, "cp": 0, "description": "成功率に注意"}, {"name": "経過観察", "category": "補助系", "level": 13, "cp": 7, "description": "1ターン見守る"}, {"name": "秘訣", "category": "条件付き", "level": 13, "cp": 0, "description": "高品質以上で使用"}, {"name": "倹約", "category": "耐久管理系", "level": 15, "cp": 56, "description": "耐久消費を抑える"}, {"name": "ヴェネレーション", "category": "強化系", "level": 15, "cp": 18, "description": "作業効率上昇"}, {"name": "中級加工", "category": "加工系", "level": 18, "cp": 32, "description": "加工からのコンボあり"}, {"name": "グレートストライド", "category": "強化系", "level": 21, "cp": 32, "description": "次の加工を強化"}, {"name": "イノベーション", "category": "強化系", "level": 26, "cp": 18, "description": "加工効率上昇"}, {"name": "最終確認", "category": "補助系", "level": 42, "cp": 1, "description": "完成を一度防ぐ"}, {"name": "長期倹約", "category": "耐久管理系", "level": 47, "cp": 98, "description": "耐久消費を抑える"}, {"name": "ビエルゴの祝福", "category": "加工系", "level": 50, "cp": 24, "description": "インナークワイエットを消費"}, {"name": "集中加工", "category": "条件付き", "level": 53, "cp": 18, "description": "高品質以上で使用"}, {"name": "確信", "category": "作業系", "level": 54, "cp": 6, "description": "1ターン目のみ"}, {"name": "模範作業", "category": "作業系", "level": 62, "cp": 7, "description": "工数を進める"}, {"name": "マニピュレーション", "category": "耐久回復系", "level": 65, "cp": 96, "description": "クラスクエストで解放"}, {"name": "倹約加工", "category": "加工系", "level": 66, "cp": 25, "description": "耐久消費を抑える"}, {"name": "上級加工", "category": "加工系", "level": 68, "cp": 46, "description": "コンボでCP軽減"}, {"name": "真価", "category": "加工系", "level": 69, "cp": 6, "description": "1ターン目のみ"}, {"name": "下地加工", "category": "加工系", "level": 71, "cp": 40, "description": "耐久20消費"}, {"name": "下地作業", "category": "作業系", "level": 72, "cp": 18, "description": "耐久20消費"}, {"name": "精密作業", "category": "作業・加工複合", "level": 76, "cp": 32, "description": "工数と品質を上げる"}, {"name": "集中作業", "category": "条件付き", "level": 78, "cp": 6, "description": "高品質以上で使用"}, {"name": "匠の早業", "category": "加工系", "level": 80, "cp": 250, "description": "低レベルレシピ向け、1ターン目のみ"}, {"name": "倹約作業", "category": "作業系", "level": 88, "cp": 18, "description": "耐久消費を抑える"}, {"name": "匠の神業", "category": "加工系", "level": 90, "cp": 32, "description": "インナークワイエット10で使用"}, {"name": "洗練加工", "category": "加工系", "level": 92, "cp": 24, "description": "加工からのコンボ"}, {"name": "デアリングタッチ", "category": "条件付き", "level": 96, "cp": 0, "description": "匠の好機中・ホットバー登録不可"}, {"name": "パーフェクトメンド", "category": "耐久回復系", "level": 98, "cp": 112, "description": "耐久を全回復"}, {"name": "匠の絶技", "category": "補助系", "level": 100, "cp": 0, "description": "一度だけ耐久消費0"}, {"name": "設計変更", "category": "マイスター専用", "level": 55, "cp": 0, "description": "製図用紙を消費"}, {"name": "一心不乱", "category": "マイスター専用", "level": 86, "cp": 0, "description": "製図用紙を消費"}, {"name": "クイックイノベーション", "category": "マイスター専用", "level": 96, "cp": 0, "description": "製図用紙を消費"}]</script>
+<script>
+const data=JSON.parse(document.getElementById('craftdata').textContent),$=id=>document.getElementById(id);
+const groups=['すべて',...new Set(data.map(x=>x.category))];groups.forEach(x=>$('cat').add(new Option(x,x)));
+let lines=[];function options(){const list=data.filter(x=>$('cat').value==='すべて'||x.category===$('cat').value);
+$('act').replaceChildren(...list.map(x=>new Option(x.name,x.name)));info()}
+function info(){const x=data.find(x=>x.name===$('act').value);$('info').textContent=x?`Lv${x.level} / CP ${x.cp} / ${x.description}`:''}
+$('cat').onchange=options;$('act').onchange=info;
+function render(){
+$('output').value=lines.map((x,i)=>`/ac "${x.name}"${i<lines.length-1&&x.wait?` <wait.${x.wait}>`:''}`).join('\n');
+$('count').textContent=`${lines.length} / 15行`;
+$('add').disabled=lines.length>=15;
+}
+$('add').onclick=()=>{if(lines.length>=15)return;lines.push({name:$('act').value,wait:Number($('wait').value)});render()};
+$('undo').onclick=()=>{lines.pop();render()};$('clear').onclick=()=>{if(confirm('全行を消去しますか？')){lines=[];render()}};
+$('transfer').onclick=()=>{const macro=$('output').value;if(!macro){$('status').textContent='まずマクロを追加してね';return}window.parent.postMessage({type:'shioan-craft-transfer',macro},'*')};$('copy').onclick=async()=>{const s=$('output').value;if(!s){$('status').textContent='まずマクロを追加してね';return}try{await navigator.clipboard.writeText(s);$('status').textContent='コピーしました'}catch(e){$('output').focus();$('output').select();try{if(document.execCommand('copy')){$('status').textContent='コピーしました';return}}catch(_){}$('status').textContent='コピーできない場合は選択した文字を手動でコピーしてね'}};
+let selectedCategory='すべて';
+function chips(){const root=$('chips');root.replaceChildren();groups.forEach(cat=>{const b=document.createElement('button');b.textContent=cat;b.className=selectedCategory===cat?'active':'';b.setAttribute('aria-pressed',selectedCategory===cat?'true':'false');b.onclick=()=>{selectedCategory=cat;chips();dict()};root.append(b)})}
+function dict(){const q=$('search').value.trim().toLowerCase();const d=$('dictionary');d.replaceChildren();
+const filtered=data.filter(x=>(selectedCategory==='すべて'||x.category===selectedCategory)&&[x.name,x.category,x.description].join(' ').toLowerCase().includes(q));
+$('dictcount').textContent=`${filtered.length}件表示 / 全${data.length}件`;
+filtered.forEach(x=>{const e=document.createElement('div');e.className='dict-card';
+const summary=document.createElement('div');summary.className='summary';const title=document.createElement('strong');title.textContent=x.name;
+const meta=document.createElement('span');meta.className='meta';meta.textContent=`CP ${x.cp}`;summary.append(title,meta);
+const level=document.createElement('div');level.className='meta';level.textContent=`${x.category}　/　Lv${x.level}`;
+const controls=document.createElement('div');controls.className='controls';
+const add=document.createElement('button');add.textContent='＋ 追加';add.disabled=lines.length>=15;add.onclick=()=>{if(lines.length>=15)return;lines.push({name:x.name,wait:Number($('wait').value)});render();dict()};
+const toggle=document.createElement('button');toggle.className='detail-toggle';toggle.textContent='詳細を見る ▾';toggle.setAttribute('aria-expanded','false');
+const details=document.createElement('div');details.className='details';details.hidden=true;const desc=document.createElement('div');desc.textContent=x.description;
+const code=document.createElement('code');code.textContent=`/ac "${x.name}" <wait.3>`;details.append(desc,code);
+toggle.onclick=()=>{details.hidden=!details.hidden;toggle.textContent=details.hidden?'詳細を見る ▾':'詳細を閉じる ▴';toggle.setAttribute('aria-expanded',String(!details.hidden))};
+controls.append(add,toggle);e.append(summary,level,controls,details);d.append(e)})}
+$('search').oninput=dict;options();render();chips();dict();
+</script></html>
