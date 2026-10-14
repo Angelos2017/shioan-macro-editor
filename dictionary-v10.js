@@ -25,20 +25,31 @@ function sanitized(input){const text=input.value.trim().replace(/[\r\n]+/g,' ');
 function appendImport(cmd){const prev=lines();if(prev.length>=15&&!confirm('15行を超えるけれど追加する？ FF14ではマクロを分けてね'))return;
  const current=$('source').value.trimEnd();setSource(current?current+'\n'+cmd:cmd);$('source').dispatchEvent(new Event('input',{bubbles:true}));}
 function reportText(item,cmd){return `【しお✦あん コマンド確認】\n日本語の説明：${item.name}\nコマンド：${cmd}\n分類：${item.category}\n困ったこと・修正案：\n使用パッチ：`}
-function makeCard(item){const card=elm('article',undefined,'emote-card');const title=elm('h3',item.name);const label=elm('span',item.category,'pill');card.append(title,label);
-const syntax=elm('p',`構文：${item.syntax}`,'muted');card.append(syntax);
-if(item.description){const d=document.createElement('details');const summary=elm('summary','詳しい説明・サブコマンド');const p=elm('p',item.description,'detail-text');d.append(summary,p);card.append(d)}
-const alias=elm('p',item.aliases.length?'別名：'+item.aliases.join('、'):'別名なし','muted emote-note');card.append(alias);
-const status=elm('p',`使用頻度：${item.frequency||'未評価'} ／ ゲーム内：${item.verification||'未検証'}${item.duplicate?' ／ 同名定義あり':''}`,'muted emote-note');card.append(status);
-const input=document.createElement('input');input.value=item.command;input.spellcheck=false;input.setAttribute('aria-label',item.name+'のコマンド（引数を編集できます）');
-const wrapper=elm('div',undefined,'emote-command');wrapper.append(input);card.append(wrapper);
-if(item.params&&item.params!=='不要／要確認'){card.append(elm('p','必要な指定：'+item.params,'muted emote-note'))}
-const buttonRow=elm('div',undefined,'row');
-const append=elm('button','取り込みに追加','small');append.type='button';append.onclick=()=>{const cmd=sanitized(input);if(cmd)appendImport(cmd)};
-const builder=elm('button','かんたん作成で使う','small secondary');builder.type='button';builder.onclick=()=>{const cmd=sanitized(input);if(cmd&&window.shioanChooseCommand)window.shioanChooseCommand(cmd)};
-const cp=elm('button','コマンドをコピー','small secondary');cp.type='button';cp.onclick=async()=>{const cmd=sanitized(input);if(cmd&&await copy(cmd))cp.textContent='✓ コピー済み'};
-const report=elm('button','報告文をコピー','small secondary');report.type='button';report.onclick=async()=>{const cmd=sanitized(input);if(cmd)await copy(reportText(item,cmd))};buttonRow.append(append,builder,cp,report);card.append(buttonRow);
-const link=elm('a','GitHubで報告 ↗','muted');link.href=issues+'?'+new URLSearchParams({title:'コマンド確認：'+item.command,body:reportText(item,item.command)});link.rel='noopener noreferrer';link.target='_blank';card.append(link);return card;}
+function makeCard(item){
+ const card=elm('article',undefined,'command-compact');
+ const head=elm('div',undefined,'command-head');const heading=elm('div',undefined,'command-heading');
+ heading.append(elm('strong',item.command));
+ const short=(item.name||item.description||'').replace(/\s+/g,' ').trim();
+ heading.append(elm('p',short.length>105?short.slice(0,105)+'…':short,'brief'));
+ const actions=elm('div',undefined,'command-actions');
+ const add=elm('button','＋ 追加','small');add.type='button';
+ add.onclick=()=>appendImport(item.command);
+ const detailBtn=elm('button','詳細 ▾','small secondary');detailBtn.type='button';
+ actions.append(add,detailBtn);head.append(heading,actions);card.append(head);
+ const detail=elm('div',undefined,'command-detail hidden');detailBtn.onclick=()=>{const open=detail.classList.toggle('hidden');detailBtn.textContent=open?'詳細 ▾':'閉じる ▴'};
+ detail.append(elm('p','構文：'+item.syntax,'muted'));
+ if(item.description)detail.append(elm('p',item.description,'detail-text'));
+ if(item.aliases?.length)detail.append(elm('p','別名：'+item.aliases.join('、'),'muted'));
+ detail.append(elm('p',`使用頻度：${item.frequency||'未評価'} ／ ゲーム内：${item.verification||'未検証'}`,'muted'));
+ if(item.params&&item.params!=='不要／要確認')detail.append(elm('p','必要な指定：'+item.params,'muted'));
+ const input=elm('input');input.value=item.command;input.spellcheck=false;input.setAttribute('aria-label',item.name+'のコマンド（引数を編集できます）');detail.append(input);
+ const row=elm('div',undefined,'row');
+ const fullAdd=elm('button','編集した内容を追加','small');fullAdd.onclick=()=>{const cmd=sanitized(input);if(cmd)appendImport(cmd)};
+ const builder=elm('button','かんたん作成で使う','small secondary');builder.onclick=()=>{const cmd=sanitized(input);if(cmd&&window.shioanChooseCommand)window.shioanChooseCommand(cmd)};
+ const cp=elm('button','コピー','small secondary');cp.onclick=async()=>{const cmd=sanitized(input);if(cmd)await copy(cmd)};
+ const report=elm('button','報告文をコピー','small secondary');report.onclick=async()=>{const cmd=sanitized(input);if(cmd)await copy(reportText(item,cmd))};
+ row.append(fullAdd,builder,cp,report);detail.append(row);card.append(detail);return card;
+}
 function render(){const q=$('cmdSearch').value.trim().toLowerCase(),cat=$('cmdCategory').value,view=$('cmdView').value;
 filtered=items.filter(x=>(!cat||x.category===cat)&&(view==='all'||view==='reviewed'&&x.recommendation==='おすすめ')&&[x.name,x.command,x.aliases.join(' '),x.syntax,x.description,searchHints[x.command]||''].join(' ').toLowerCase().includes(q));
 $('cmdCounter').textContent=`${filtered.length}件 / 総合辞書${items.length}定義（基本コマンド${new Set(items.map(x=>x.command)).size}種類）`;

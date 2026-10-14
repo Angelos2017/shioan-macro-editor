@@ -36,7 +36,7 @@ $('makeAdd').onclick=()=>{if(state.length>=15)return;let cmd='',wait='';if($('ma
  commit([...state,{cmd,wait}]);if($('makeType').value==='chat'){$('makeText').value='';$('makeText').focus();}}
 $('makeUndo').onclick=()=>{if(!past.length)return;future.push(clone(state));state=past.pop();save();render()};
 $('makeRedo').onclick=()=>{if(!future.length)return;past.push(clone(state));state=future.pop();save();render()};
-$('makeClear').onclick=()=>{if(state.length&&confirm('作成中のマクロをすべて消去する？'))commit([])};
+$('makeClear').onclick=()=>{if(!confirm('かんたん作成中のマクロとブラウザに保存された内容の両方を削除します。\n削除した内容は元に戻せません。\n\n両方クリアしますか？'))return;state=[];past=[];future=[];try{localStorage.removeItem('shioan-builder-v03')}catch(e){}render();if(window.showToast)showToast('作成中のマクロと保存データをクリアしました')};
 $('makeImport').onclick=()=>{if(!state.length){alert('まず1行追加してね');return;}setSource(result())};
 $('makeCopy').onclick=()=>{if(!state.length)return;copy(result())};
 window.shioanChooseCommand=cmd=>{$('makeType').value='command';updateType();$('makeCustom').value=cmd;show('make');$('makeCustom').focus();};
