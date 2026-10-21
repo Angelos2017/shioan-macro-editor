@@ -19,13 +19,9 @@ const append=document.createElement('button');append.type='button';append.classN
  const cmd=commandFrom(input,motion);if(!cmd)return;const before=lines();if(before.length>=15&&!confirm('15行を超えるけれど追加する？ FF14では別のマクロに分けてね'))return;
  const next=$('source').value.trimEnd();setSource(next?next+'\n'+cmd:cmd);$('source').dispatchEvent(new Event('input',{bubbles:true}));
 };
-const toBuilder=document.createElement('button');toBuilder.type='button';toBuilder.className='small secondary';toBuilder.textContent='かんたん作成で選ぶ';toBuilder.onclick=()=>{if(input.value.trim()!==item.command){alert('編集したコマンドは「取り込みへ追加」を使ってね。かんたん作成では辞書の正式コマンドを選択します。');return;}window.shioanChooseEmote?.(item.command,motion.checked)};
-const report=document.createElement('button');report.type='button';report.className='small secondary';report.textContent='報告文をコピー';report.onclick=async()=>{
- const cmd=commandFrom(input,motion);if(!cmd)return;const body=`【しお✦あん エモート動作報告】\n日本語名：${item.name}\nコマンド：${cmd}\n不具合・気づいたこと：\n使用したFF14パッチ：\n習得済みか：\n補足：`;if(await copyText(body)){report.textContent='✓ コピー済み';setTimeout(()=>{report.textContent='報告文をコピー'},1800)}
-};
-buttonRow.append(append,toBuilder,report);
-const link=document.createElement('a');link.target='_blank';link.rel='noopener noreferrer';link.href=ghIssues+'?'+new URLSearchParams({title:'エモート確認：'+item.name,body:`コマンド：${item.command}\nゲーム内での状況：\nFF14パッチ：`}).toString();link.textContent='GitHubで報告 ↗';link.className='muted';
-card.append(title,badge,p,alias,status,wrapper,buttonRow,link);return card;
+const toBuilder=document.createElement('button');toBuilder.type='button';toBuilder.className='small secondary';toBuilder.textContent='自由に作成で選ぶ';toBuilder.onclick=()=>{if(input.value.trim()!==item.command){alert('編集したコマンドは「取り込みへ追加」を使ってね。自由作成では辞書の正式コマンドを選択します。');return;}window.shioanChooseEmote?.(item.command,motion.checked)};
+buttonRow.append(append,toBuilder);
+card.append(title,badge,p,alias,status,wrapper,buttonRow);return card;
 }
 function render(){const q=$('emoteDictSearch').value.toLowerCase().trim(),cat=$('emoteDictCategory').value;lastFiltered=items.filter(x=>(!cat||x.category===cat)&&[x.name,x.command,x.aliases.join(' '),x.description].join(' ').toLowerCase().includes(q));
  $('emoteCounter').textContent=`${lastFiltered.length}件表示 / 全${items.length}件`;
